@@ -81,7 +81,7 @@
 mynest::StepPatternBuilder::StepPatternBuilder( const nest::NodeCollectionPTR sources,
   const nest::NodeCollectionPTR targets,
   const DictionaryDatum& conn_spec,
-  const DictionaryDatum& syn_spec )
+  const std::vector< DictionaryDatum >& syn_spec )
   : nest::ConnBuilder( sources, targets, conn_spec, syn_spec )
   , source_step_( ( *conn_spec )[ Name( "source_step" ) ] )
   , target_step_( ( *conn_spec )[ Name( "target_step" ) ] )

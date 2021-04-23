@@ -35,7 +35,7 @@ public:
   StepPatternBuilder( const nest::NodeCollectionPTR sources,
     const nest::NodeCollectionPTR targets,
     const DictionaryDatum& conn_spec,
-    const DictionaryDatum& syn_spec );
+    const std::vector< DictionaryDatum >& syn_spec );
 
 protected:
   void connect_() override;
