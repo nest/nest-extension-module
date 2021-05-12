@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# travis_build.sh
+# build.sh
 #
 # This file is part of the NEST example module.
 #
@@ -20,9 +20,8 @@
 # along with NEST.  If not, see <http://www.gnu.org/licenses/>.
 
 
-# This shell script is part of the NEST example module Travis CI build
-# and test environment. It is invoked by the top-level Travis script
-# '.travis.yml'.
+# This shell script is part of the NEST example module Github Actions build
+# and test environment. It is invoked by the top-level script '.github/workflows/build.yml'.
 #
 
 # Exit shell if any subcommand or pipline returns a non-zero status.
@@ -97,7 +96,6 @@ cmake \
 VERBOSE=1 make -j 2
 make install
 
-# TODO: replace by proper testsuite!
 . $NEST_RESULT/bin/nest_vars.sh
 python -c 'import nest; nest.Install("mymodule")'
 exit $?
