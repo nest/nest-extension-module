@@ -14,7 +14,6 @@ jobs:
             os: ubuntu-latest
           - cpp_compiler: "gcc"
             os: macos-latest
-
   
     steps:
       # Checkout the repository

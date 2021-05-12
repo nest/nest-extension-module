@@ -29,10 +29,6 @@
 set -e
 
 # We need to do this, because  update-alternatives is not available on MacOS
-# if [[ $OSTYPE = darwin* ]]; then
-#   export CC=$(ls /usr/local/bin/gcc-* | grep '^/usr/local/bin/gcc-\d$')
-#   export CXX=$(ls /usr/local/bin/g++-* | grep '^/usr/local/bin/g++-\d$')
-# fi
 if [ "$xNEST_BUILD_COMPILER" = "CLANG" ]; then
     export CC=clang-11
     export CXX=clang++-11
@@ -64,9 +60,6 @@ echo "--> Detected PYTHON_INCLUDE_DIR=$PYTHON_INCLUDE_DIR"
 # Explicitly allow MPI oversubscription. This is required by Open MPI versions > 3.0.
 # Not having this in place leads to a "not enough slots available" error.
 cp extras/nestrc.sli ~/.nestrc
-# if [[ "$OSTYPE" = "darwin"* ]] ; then
-#   sed -i -e 's/mpirun -np/mpirun --oversubscribe -np/g' ~/.nestrc
-# fi
 sed -i -e 's/mpirun -np/mpirun --oversubscribe -np/g' ~/.nestrc
 NEST_RESULT=result
 if [ "$(uname -s)" = 'Linux' ]; then
