@@ -6,7 +6,7 @@ implemented in NEST. Synapses in NEST come in two parts:
 
 1. a Connection object that manages synaptic weight and delay, and
 
-1. code implementing the synaptic currents or conductances resulting
+2. code implementing the synaptic currents or conductances resulting
    from a spike arrival; the latter is always coded in the model
    neuron class.
 
