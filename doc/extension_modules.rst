@@ -20,8 +20,8 @@ By writing a new module, you can add
 
 to NEST. For the benefit of the NEST Community at large, we would
 encourage you to share your modules with other NEST users. Please see
-the :doc:`workflow manual <development_workflow>` to find out how to
-initiate the inclusion by issuing a pull request.
+the :doc:`contributing <https://nest-simulator.readthedocs.io/en/latest/contribute/index.html>`
+page to find out how to initiate the inclusion by issuing a pull request.
 
 On this page, you will find a (brief) overview over how to create your
 own module, based on the example ``MyModule``, which you find at
