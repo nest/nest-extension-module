@@ -142,7 +142,7 @@ private:
   //! Reset parameters and state of neuron.
 
   //! Reset state of neuron.
-  void init_state_( const Node& proto ) override;
+  void init_state_() override;
 
   //! Reset internal buffers of neuron.
   void init_buffers_() override;
