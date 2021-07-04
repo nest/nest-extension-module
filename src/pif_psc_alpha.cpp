@@ -182,13 +182,6 @@ mynest::pif_psc_alpha::pif_psc_alpha( const pif_psc_alpha& n )
  * ---------------------------------------------------------------- */
 
 void
-mynest::pif_psc_alpha::init_state_( const Node& proto )
-{
-  const auto& pr = downcast< pif_psc_alpha >( proto );
-  S_ = pr.S_;
-}
-
-void
 mynest::pif_psc_alpha::init_buffers_()
 {
   B_.spikes.clear();   // includes resize

@@ -139,11 +139,6 @@ public:
   void set_status( const DictionaryDatum& ) override;
 
 private:
-  //! Reset parameters and state of neuron.
-
-  //! Reset state of neuron.
-  void init_state_( const Node& proto ) override;
-
   //! Reset internal buffers of neuron.
   void init_buffers_() override;
 
