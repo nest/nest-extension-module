@@ -1,5 +1,5 @@
 name: NEST extension module build
-on: [push, pull_request]
+on: [push, pull_request, repository_dispatch]
 
 jobs:
   setup:
