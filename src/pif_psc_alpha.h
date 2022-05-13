@@ -103,7 +103,7 @@ public:
    * @node The copy constructor needs to initialize the parameters and the
    * state.
    *       Initialization of buffers and interal variables is deferred to
-   *       @c init_buffers_() and @c calibrate().
+   *       @c init_buffers_() and @c pre_run_hook().
    */
   pif_psc_alpha( const pif_psc_alpha& );
 
@@ -143,7 +143,7 @@ private:
   void init_buffers_() override;
 
   //! Initialize auxiliary quantities, leave parameters and state untouched.
-  void calibrate() override;
+  void pre_run_hook() override;
 
   //! Take neuron through given time interval
   void update( nest::Time const&, const long, const long ) override;
@@ -238,7 +238,7 @@ private:
    * Buffers of the neuron.
    * Ususally buffers for incoming spikes and data logged for analog recorders.
    * Buffers must be initialized by @c init_buffers_(), which is called before
-   * @c calibrate() on the first call to @c Simulate after the start of NEST,
+   * @c pre_run_hook() on the first call to @c Simulate after the start of NEST,
    * ResetKernel.
    * @node Buffers_ needs neither constructor, copy constructor or assignment
    *       operator, since it is initialized by @c init_nodes_(). If Buffers_
@@ -260,10 +260,10 @@ private:
 
   /**
    * Internal variables of the neuron.
-   * These variables must be initialized by @c calibrate, which is called before
+   * These variables must be initialized by @c pre_run_hook, which is called before
    * the first call to @c update() upon each call to @c Simulate.
    * @node Variables_ needs neither constructor, copy constructor or assignment
-   *       operator, since it is initialized by @c calibrate(). If Variables_
+   *       operator, since it is initialized by @c pre_run_hook(). If Variables_
    *       has members that cannot destroy themselves, Variables_ will need a
    *       destructor.
    */

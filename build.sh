@@ -58,8 +58,6 @@ echo "--> Detected PYTHON_INCLUDE_DIR=$PYTHON_INCLUDE_DIR"
 
 # Explicitly allow MPI oversubscription. This is required by Open MPI versions > 3.0.
 # Not having this in place leads to a "not enough slots available" error.
-cp extras/nestrc.sli ~/.nestrc
-sed -i -e 's/mpirun -np/mpirun --oversubscribe -np/g' ~/.nestrc
 NEST_RESULT=result
 if [ "$(uname -s)" = 'Linux' ]; then
     NEST_RESULT=$(readlink -f $NEST_RESULT)

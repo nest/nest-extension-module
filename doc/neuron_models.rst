@@ -22,7 +22,7 @@ classes Device and Recorder. The base classes define some pure virtual
 functions that have to be implemented in a derived model class. The
 most important functions are:
 
-* ``void calibrate()``: Set scheduler dependent internal
+* ``void pre_run_hook()``: Set scheduler dependent internal
   parameters. This function is called by the scheduler right before
   the simulation is performed. Here you can reset the size of ring
   buffers, and set variables that depend on the state of the

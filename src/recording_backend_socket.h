@@ -50,7 +50,7 @@ namespace nest
  * socket connection to send the data of all recording devices. In
  * order to not open the socket if no device is connected, the socket
  * is opened upon the first call to enroll() (issued by the recorder's
- * calibrate() function) and closed in finalize(), which is called on
+ * pre_run_hook() function) and closed in finalize(), which is called on
  * all registered recording backends by IOManager::cleanup().
  */
 
