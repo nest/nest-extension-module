@@ -31,8 +31,9 @@ For a list of modules developed by other users you can check out the
 `list of forks <https://github.com/nest/nest-extension-module/network/members>`_
 of this repository.
 
-For developing custom neuron and synapse models, please consider using
-`the NESTML modeling language <https://nestml.readthedocs.org/>`_.
+.. info::
+
+   For developing custom neuron and synapse models, please consider using the NESTML modeling language <https://nestml.readthedocs.org/>`_.
 
 .. attention::
 
