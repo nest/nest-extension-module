@@ -1,9 +1,9 @@
 Writing neuron models
 =====================
 
-.. info::
+.. note::
 
-   For developing custom neuron and synapse models, please consider using the NESTML modeling language <https://nestml.readthedocs.org/>`_.
+   For developing custom neuron and synapse models, please consider using `the NESTML modeling language <https://nestml.readthedocs.org/>`_.
 
 All models in NEST are derived from the base class Node. Neuron models
 are derived directly from the base class, whereas devices use the base

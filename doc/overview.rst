@@ -1,7 +1,7 @@
 NEST Extension Module Example
 =============================
 
-This repository contains an example extension module (i.e a "plugin") for
+This repository contains an example extension module (i.e., a "plugin") for
 the `NEST Simulator <https://nest-simulator.org>`_. Extension modules allow
 users to extend the functionality of NEST without messing with the source
 code of NEST itself, thus making pulls from upstream easy, while allowing
@@ -31,9 +31,9 @@ For a list of modules developed by other users you can check out the
 `list of forks <https://github.com/nest/nest-extension-module/network/members>`_
 of this repository.
 
-.. info::
+.. note::
 
-   For developing custom neuron and synapse models, please consider using the NESTML modeling language <https://nestml.readthedocs.org/>`_.
+   For developing custom neuron and synapse models, please consider using `the NESTML modeling language <https://nestml.readthedocs.org/>`_.
 
 .. attention::
 

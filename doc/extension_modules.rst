@@ -16,11 +16,11 @@ By writing a new module, you can add
 
 to NEST. For the benefit of the NEST Community at large, we would encourage you to share your modules with other NEST users. Please see the `contributing <https://nest-simulator.readthedocs.io/en/stable/developer_space/index.html>`_ page to find out how to initiate the inclusion by issuing a pull request.
 
-On this page, you will find an overview over how to create your own module, based on the example ``MyModule``, which you find at https://github.com/nest/nest-extension-module/.
+On this page, you will find an overview of how to create your own module, based on the example ``MyModule``, which you find at https://github.com/nest/nest-extension-module/.
 
 If you have questions, problems, or feedback about your experience with external modules, please join the `mailing list <https://nest-simulator.readthedocs.io/en/stable/community.html>`_ to share it with us ·and other users.
 
-.. info::
+.. note::
 
    For developing custom neuron and synapse models, please consider using `the NESTML modeling language <https://nestml.readthedocs.org/>`_.
 
@@ -49,7 +49,7 @@ Building MyModule
       mkdir build
       cd build
 
-3. Configure. The configure process uses the script ``nest-config`` to find out where NEST is installed, where the source code resides, and which compiler options were used for compiling NEST. If ``nest-config`` is not in your path, you need to provided it explicitly like this
+3. Configure. The configure process uses the script ``nest-config`` to find out where NEST is installed, where the source code resides, and which compiler options were used for compiling NEST. If ``nest-config`` is not in your path, you need to provide it explicitly like this
 
    .. code-block:: sh
 
@@ -86,7 +86,7 @@ Creating your own module
 ------------------------
 
 1. Start with the code from MyModule.
-2. Replace anything called "mymodule" in any form of camelcasing by the name of your module, and proceed as above.
+2. Replace anything called ``mymodule`` in any form of camelcasing by the name of your module, and proceed as above.
 3. When you change names of source code files or add/remove files, you need to update the variable ``MODULE_SOURCES`` in ``CMakeLists.txt``.
 4. ``make dist`` will roll a tarball of your module for distribution to others.
 
