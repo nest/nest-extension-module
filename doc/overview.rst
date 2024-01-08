@@ -43,42 +43,6 @@ of this repository.
    extension module example in ``examples/MyModule`` of the source distribution.
 
 
-Installation
-------------
-
-To build and install the extension module examples, first create a build
-directory:
-
-.. code-block:: sh
-
-   mkdir build && cd build
-
-Then compile the module:
-
-.. code-block:: sh
-
-   cmake \
-    -Dwith-optimize=ON -Dwith-warning=ON \
-    -Dwith-nest=$NEST_INSTALL_DIR/bin/nest-config 
-    ..
-   make
-   make install
-
-In this example ``$NEST_INSTALL_DIR`` refers to the directory that NEST
-Simulator was installed to. Please ensure that the CMake flags
-(``with-optimize``, ``with-mpi``, ``with-openmp`` and so on) are the same
-as were used for the NEST Simulator build.
-
-To use the new module in NEST Simulator, first source the ``nest_vars.sh``
-script in the installation directory, and then use the ``nest.Install()``
-API call to load the module:
-
-.. code-block:: sh
-
-   source $NEST_INSTALL_DIR/bin/nest_vars.sh
-   python -c 'import nest; nest.Install("mymodule")'
-
-
 Adapting ``MyModule``
 ---------------------
 
