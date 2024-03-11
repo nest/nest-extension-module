@@ -19,7 +19,7 @@
 
 # Add all your sources here and specify dependencies, e.g., link libraries
 set( MODULE_SOURCES
-     mymodule.h mymodule.cpp
+     mymodule.cpp
      pif_psc_alpha.h pif_psc_alpha.cpp
      drop_odd_spike_connection.h drop_odd_spike_connection.cpp
      step_pattern_builder.h step_pattern_builder.cpp
@@ -37,34 +37,15 @@ else ()
   message( "-- Skip build of recording backend >SoundClick<. sfml-audio is not installed." )
 endif ()
 
-if ( BUILD_SHARED_LIBS )
-  # When building shared libraries, also create a module for loading at runtime
-  # with the `Install` command.
-  add_library( ${MODULE_NAME}_module MODULE ${MODULE_SOURCES} )
-  target_link_libraries(${MODULE_NAME}_module ${USER_LINK_LIBRARIES})
-  set_target_properties( ${MODULE_NAME}_module
-      PROPERTIES
-      COMPILE_FLAGS "${NEST_CXXFLAGS} -DLTX_MODULE"
-      LINK_FLAGS "${NEST_LIBS}"
-      PREFIX ""
-      OUTPUT_NAME ${MODULE_NAME} )
-  install( TARGETS ${MODULE_NAME}_module
-      DESTINATION ${CMAKE_INSTALL_LIBDIR}/nest
-      )
-endif ()
+add_library( ${MODULE_NAME}_module MODULE ${MODULE_SOURCES} )
+target_link_libraries(${MODULE_NAME}_module ${USER_LINK_LIBRARIES})
+set_target_properties( ${MODULE_NAME}_module
+   PROPERTIES
+   COMPILE_FLAGS "${NEST_CXXFLAGS} -DLTX_MODULE"
+   LINK_FLAGS "${NEST_LIBS}"
+   PREFIX ""
+   OUTPUT_NAME ${MODULE_NAME} )
+install( TARGETS ${MODULE_NAME}_module
+   DESTINATION ${CMAKE_INSTALL_LIBDIR}/nest
+   )
 
-# Build dynamic/static library for standard linking from NEST.
-add_library( ${MODULE_NAME}_lib ${MODULE_SOURCES} )
-if ( BUILD_SHARED_LIBS )
-  # Dynamic libraries are initiated by a `global` variable of the `SLIModule`,
-  # which is included, when the flag `LINKED_MODULE` is set.
-  target_compile_definitions( ${MODULE_NAME}_lib PRIVATE -DLINKED_MODULE )
-endif ()
-set_target_properties( ${MODULE_NAME}_lib
-    PROPERTIES
-    COMPILE_FLAGS "${NEST_CXXFLAGS}"
-    LINK_FLAGS "${NEST_LIBS}"
-    OUTPUT_NAME ${MODULE_NAME} )
-
-# Install library
-install( TARGETS ${MODULE_NAME}_lib DESTINATION ${CMAKE_INSTALL_LIBDIR}/nest )

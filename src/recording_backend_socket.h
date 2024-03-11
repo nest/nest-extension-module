@@ -31,7 +31,7 @@
 
 #include "recording_backend.h"
 
-namespace nest
+namespace mynest
 {
 
 /**
@@ -54,7 +54,7 @@ namespace nest
  * all registered recording backends by IOManager::cleanup().
  */
 
-class RecordingBackendSocket : public RecordingBackend
+class RecordingBackendSocket : public nest::RecordingBackend
 {
 public:
   RecordingBackendSocket();
@@ -65,11 +65,11 @@ public:
 
   void finalize() override;
 
-  void enroll( const RecordingDevice& device, const DictionaryDatum& params ) override;
+  void enroll( const nest::RecordingDevice& device, const DictionaryDatum& params ) override;
 
-  void disenroll( const RecordingDevice& device ) override;
+  void disenroll( const nest::RecordingDevice& device ) override;
 
-  void set_value_names( const RecordingDevice& device,
+  void set_value_names( const nest::RecordingDevice& device,
     const std::vector< Name >& double_value_names,
     const std::vector< Name >& long_value_names ) override;
 
@@ -83,7 +83,7 @@ public:
 
   void post_step_hook() override;
 
-  void write( const RecordingDevice&, const Event&, const std::vector< double >&, const std::vector< long >& ) override;
+  void write( const nest::RecordingDevice&, const nest::Event&, const std::vector< double >&, const std::vector< long >& ) override;
 
   void set_status( const DictionaryDatum& ) override;
 
@@ -93,7 +93,7 @@ public:
 
   void get_device_defaults( DictionaryDatum& ) const override;
 
-  void get_device_status( const RecordingDevice&, DictionaryDatum& ) const override;
+  void get_device_status( const nest::RecordingDevice&, DictionaryDatum& ) const override;
 
 private:
   struct Parameters_

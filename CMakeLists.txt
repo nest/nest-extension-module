@@ -22,35 +22,18 @@ cmake_minimum_required( VERSION 3.19 )
 list( APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake )
 include( ProcessDependencies )
 
-# Name your module here.
-set( SHORT_NAME my )
-
 # Build the complete module name:
-set( MODULE_NAME ${SHORT_NAME}module )
-
-# We require a module header containing the class description of the class
-# extending the SLIModule
-set( MODULE_HEADER src/${MODULE_NAME}.h )
+set( MODULE_NAME mymodule )
 
 # Specify your module version
-set( MODULE_VERSION_MAJOR 1 )
-set( MODULE_VERSION_MINOR 0 )
+set( MODULE_VERSION_MAJOR 0 )
+set( MODULE_VERSION_MINOR 1 )
 set( MODULE_VERSION "${MODULE_VERSION_MAJOR}.${MODULE_VERSION_MINOR}" )
 
-# Set the `nest-config` executable to use during configuration.
-set( with-nest OFF CACHE STRING "Specify the `nest-config` executable." )
-
-# If it is not set, look for a `nest-config` in the PATH.
-if ( NOT with-nest )
-  # try find the program ourselves
-  find_program( NEST_CONFIG
-      NAMES nest-config
-      )
-  if ( NEST_CONFIG STREQUAL "NEST_CONFIG-NOTFOUND" )
-    message( FATAL_ERROR "Cannot find the program `nest-config`. Specify via -Dwith-nest=... ." )
-  endif ()
+if ( with-nest )
+   set( NEST_CONFIG ${with-nest} )
 else ()
-  set( NEST_CONFIG ${with-nest} )
+   message( FATAL_ERROR "-Dwith-nest=<nest_config> is required" )
 endif ()
 
 # Use `nest-config` to get the compiler that was used for NEST.
@@ -124,20 +107,6 @@ if ( NEST_INCLUDES )
   endforeach ()
 endif ()
 
-# Get, if NEST is build as a (mostly) static application. If yes, also only build
-# static library.
-execute_process(
-    COMMAND ${NEST_CONFIG} --static-libraries
-    RESULT_VARIABLE RES_VAR
-    OUTPUT_VARIABLE NEST_STATIC_LIB
-    OUTPUT_STRIP_TRAILING_WHITESPACE
-)
-if ( NEST_STATIC_LIB )
-  set( BUILD_SHARED_LIBS OFF )
-else ()
-  set( BUILD_SHARED_LIBS ON )
-endif ()
-
 # Get all linked libraries.
 execute_process(
     COMMAND ${NEST_CONFIG} --libs
@@ -181,7 +150,7 @@ set( CMAKE_INSTALL_DATADIR "${NEST_INSTALL_DATADIR}" CACHE STRING "read-only arc
 
 include( GNUInstallDirs )
 
-# CPack stuff. Required for target `dist`.
+# CPack stuff. Required for target `dist`. -- TODO: Do we really need this?
 set( CPACK_GENERATOR TGZ )
 set( CPACK_SOURCE_GENERATOR TGZ )
 
@@ -212,7 +181,7 @@ set( CPACK_SOURCE_PACKAGE_FILE_NAME ${MODULE_NAME} )
 set( CPACK_PACKAGE_INSTALL_DIRECTORY "${MODULE_NAME} ${MODULE_VERSION}" )
 include( CPack )
 
-# add make dist target
+# add make dist target -- TODO: Do we want this?
 add_custom_target( dist
     COMMAND ${CMAKE_MAKE_PROGRAM} package_source
     # not sure about this... seems, that it will be removed before dist...
@@ -220,7 +189,7 @@ add_custom_target( dist
     COMMENT "Creating a source distribution from ${MODULE_NAME}..."
     )
 
-# check the user link libraries whether installed or not
+# check the user link libraries whether installed or not -- TODO: need this?
 foreach( LINKLIB ${USER_LINK_LIBRARIES} )
   find_library( LIB_${LINKLIB} ${LINKLIB} )
   if( NOT LIB_${LINKLIB} )
@@ -232,10 +201,8 @@ endforeach()
 
 add_subdirectory( src )
 
-# Install header file
-install( FILES ${MODULE_HEADER} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${MODULE_NAME} )
-
-# Install help --- based on doc/CMakeLists.txt
+# Install help --- based on doc/CMakeLists.txt -- TODO: Help
+# generation needs review
 # Install only if Py >= 2.7.8 and NEST was installed with help
 if ( ( NOT CMAKE_CROSSCOMPILING )
      AND PYTHON_EXECUTABLE
