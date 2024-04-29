@@ -32,43 +32,43 @@
 
 #include "recording_backend_socket.h"
 
-nest::RecordingBackendSocket::RecordingBackendSocket()
+mynest::RecordingBackendSocket::RecordingBackendSocket()
 {
 }
 
-nest::RecordingBackendSocket::~RecordingBackendSocket() throw()
+mynest::RecordingBackendSocket::~RecordingBackendSocket() throw()
 {
 }
 
 void
-nest::RecordingBackendSocket::initialize()
+mynest::RecordingBackendSocket::initialize()
 {
   // nothing to do
 }
 
 void
-nest::RecordingBackendSocket::finalize()
+mynest::RecordingBackendSocket::finalize()
 {
   // nothing to do
 }
 
 void
-nest::RecordingBackendSocket::enroll( const RecordingDevice& device, const DictionaryDatum& params )
+mynest::RecordingBackendSocket::enroll( const nest::RecordingDevice& device, const DictionaryDatum& params )
 {
-  if ( device.get_type() != RecordingDevice::SPIKE_RECORDER )
+  if ( device.get_type() != nest::RecordingDevice::SPIKE_RECORDER )
   {
-    throw BadProperty( "Only spike recorders can record to recording backend 'socket'" );
+    throw nest::BadProperty( "Only spike recorders can record to recording backend 'socket'" );
   }
 }
 
 void
-nest::RecordingBackendSocket::disenroll( const RecordingDevice& device )
+mynest::RecordingBackendSocket::disenroll( const nest::RecordingDevice& device )
 {
   // nothing to do
 }
 
 void
-nest::RecordingBackendSocket::set_value_names( const RecordingDevice&,
+mynest::RecordingBackendSocket::set_value_names( const nest::RecordingDevice&,
   const std::vector< Name >&,
   const std::vector< Name >& )
 {
@@ -76,25 +76,25 @@ nest::RecordingBackendSocket::set_value_names( const RecordingDevice&,
 }
 
 void
-nest::RecordingBackendSocket::pre_run_hook()
+mynest::RecordingBackendSocket::pre_run_hook()
 {
   // nothing to do
 }
 
 void
-nest::RecordingBackendSocket::post_run_hook()
+mynest::RecordingBackendSocket::post_run_hook()
 {
   // nothing to do
 }
 
 void
-nest::RecordingBackendSocket::post_step_hook()
+mynest::RecordingBackendSocket::post_step_hook()
 {
   // nothing to do
 }
 
 void
-nest::RecordingBackendSocket::prepare()
+mynest::RecordingBackendSocket::prepare()
 {
   B_.addr_.sin_family = AF_INET;
   inet_aton( P_.ip_.c_str(), &B_.addr_.sin_addr );
@@ -104,18 +104,18 @@ nest::RecordingBackendSocket::prepare()
 }
 
 void
-nest::RecordingBackendSocket::cleanup()
+mynest::RecordingBackendSocket::cleanup()
 {
   close( B_.socket_ );
 }
 
 void
-nest::RecordingBackendSocket::write( const RecordingDevice& device,
-  const Event& event,
+mynest::RecordingBackendSocket::write( const nest::RecordingDevice& device,
+				       const nest::Event& event,
   const std::vector< double >& double_values,
   const std::vector< long >& long_values )
 {
-  assert( device.get_type() == RecordingDevice::SPIKE_RECORDER );
+  assert( device.get_type() == nest::RecordingDevice::SPIKE_RECORDER );
 
 #pragma omp critical
   {
@@ -129,21 +129,21 @@ nest::RecordingBackendSocket::write( const RecordingDevice& device,
   }
 }
 
-nest::RecordingBackendSocket::Parameters_::Parameters_()
+mynest::RecordingBackendSocket::Parameters_::Parameters_()
   : ip_( "127.0.0.1" )
   , port_( 50000 )
 {
 }
 
 void
-nest::RecordingBackendSocket::Parameters_::get( DictionaryDatum& d ) const
+mynest::RecordingBackendSocket::Parameters_::get( DictionaryDatum& d ) const
 {
   ( *d )[ "ip" ] = ip_;
   ( *d )[ "port" ] = port_;
 }
 
 void
-nest::RecordingBackendSocket::Parameters_::set( const DictionaryDatum& d )
+mynest::RecordingBackendSocket::Parameters_::set( const DictionaryDatum& d )
 {
   updateValue< std::string >( d, "ip", ip_ );
   updateValue< long >( d, "port", port_ );
@@ -151,7 +151,7 @@ nest::RecordingBackendSocket::Parameters_::set( const DictionaryDatum& d )
 
 // Set the status of the recording backend
 void
-nest::RecordingBackendSocket::set_status( const DictionaryDatum& d )
+mynest::RecordingBackendSocket::set_status( const DictionaryDatum& d )
 {
   Parameters_ ptmp = P_; // temporary copy in case of errors
   ptmp.set( d );         // throws if BadProperty
@@ -162,25 +162,25 @@ nest::RecordingBackendSocket::set_status( const DictionaryDatum& d )
 
 // Return the status of the recording backend
 void
-nest::RecordingBackendSocket::get_status( DictionaryDatum& d ) const
+mynest::RecordingBackendSocket::get_status( DictionaryDatum& d ) const
 {
   P_.get( d );
 }
 
 void
-nest::RecordingBackendSocket::check_device_status( const DictionaryDatum& ) const
+mynest::RecordingBackendSocket::check_device_status( const DictionaryDatum& ) const
 {
   // nothing to do
 }
 
 void
-nest::RecordingBackendSocket::get_device_defaults( DictionaryDatum& ) const
+mynest::RecordingBackendSocket::get_device_defaults( DictionaryDatum& ) const
 {
   // nothing to do
 }
 
 void
-nest::RecordingBackendSocket::get_device_status( const RecordingDevice&, DictionaryDatum& ) const
+mynest::RecordingBackendSocket::get_device_status( const nest::RecordingDevice&, DictionaryDatum& ) const
 {
   // nothing to do
 }

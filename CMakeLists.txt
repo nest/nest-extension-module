@@ -17,40 +17,23 @@
 # You should have received a copy of the GNU General Public License
 # along with NEST.  If not, see <http://www.gnu.org/licenses/>.
 
-cmake_minimum_required( VERSION 2.8.12 )
+cmake_minimum_required( VERSION 3.19 )
 
 list( APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake )
 include( ProcessDependencies )
 
-# Name your module here.
-set( SHORT_NAME my )
-
 # Build the complete module name:
-set( MODULE_NAME ${SHORT_NAME}module )
-
-# We require a module header containing the class description of the class
-# extending the SLIModule
-set( MODULE_HEADER src/${MODULE_NAME}.h )
+set( MODULE_NAME mymodule )
 
 # Specify your module version
-set( MODULE_VERSION_MAJOR 1 )
-set( MODULE_VERSION_MINOR 0 )
+set( MODULE_VERSION_MAJOR 0 )
+set( MODULE_VERSION_MINOR 1 )
 set( MODULE_VERSION "${MODULE_VERSION_MAJOR}.${MODULE_VERSION_MINOR}" )
 
-# Set the `nest-config` executable to use during configuration.
-set( with-nest OFF CACHE STRING "Specify the `nest-config` executable." )
-
-# If it is not set, look for a `nest-config` in the PATH.
-if ( NOT with-nest )
-  # try find the program ourselves
-  find_program( NEST_CONFIG
-      NAMES nest-config
-      )
-  if ( NEST_CONFIG STREQUAL "NEST_CONFIG-NOTFOUND" )
-    message( FATAL_ERROR "Cannot find the program `nest-config`. Specify via -Dwith-nest=... ." )
-  endif ()
+if ( with-nest )
+   set( NEST_CONFIG ${with-nest} )
 else ()
-  set( NEST_CONFIG ${with-nest} )
+   message( FATAL_ERROR "-Dwith-nest=<nest_config> is required" )
 endif ()
 
 # Use `nest-config` to get the compiler that was used for NEST.
@@ -122,20 +105,6 @@ if ( NEST_INCLUDES )
       endif ()
     endif ()
   endforeach ()
-endif ()
-
-# Get, if NEST is build as a (mostly) static application. If yes, also only build
-# static library.
-execute_process(
-    COMMAND ${NEST_CONFIG} --static-libraries
-    RESULT_VARIABLE RES_VAR
-    OUTPUT_VARIABLE NEST_STATIC_LIB
-    OUTPUT_STRIP_TRAILING_WHITESPACE
-)
-if ( NEST_STATIC_LIB )
-  set( BUILD_SHARED_LIBS OFF )
-else ()
-  set( BUILD_SHARED_LIBS ON )
 endif ()
 
 # Get all linked libraries.
@@ -231,9 +200,6 @@ foreach( LINKLIB ${USER_LINK_LIBRARIES} )
 endforeach()
 
 add_subdirectory( src )
-
-# Install header file
-install( FILES ${MODULE_HEADER} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${MODULE_NAME} )
 
 # Install help --- based on doc/CMakeLists.txt
 # Install only if Py >= 2.7.8 and NEST was installed with help

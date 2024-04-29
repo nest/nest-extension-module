@@ -29,6 +29,7 @@
 
 namespace mynest
 {
+  void register_drop_odd_spike_connection( const std::string& name );
 
 /** @BeginDocumentation
   Name: drop_odd_spike - Synapse dropping spikes with odd time stamps.
@@ -132,8 +133,9 @@ public:
    * @param e The event to send
    * @param t Thread
    * @param cp Common properties to all synapses.
+   * @returns True if spike is transmitted, false otherwise.
    */
-  void send( nest::Event& e, size_t t, const CommonPropertiesType& cp );
+  bool send( nest::Event& e, size_t t, const CommonPropertiesType& cp );
 
   // The following methods contain mostly fixed code to forward the
   // corresponding tasks to corresponding methods in the base class and the w_
@@ -162,12 +164,12 @@ template < typename targetidentifierT >
 constexpr nest::ConnectionModelProperties DropOddSpikeConnection< targetidentifierT >::properties;
 
 template < typename targetidentifierT >
-inline void
+inline bool
 DropOddSpikeConnection< targetidentifierT >::send( nest::Event& e, size_t t, const CommonPropertiesType& props )
 {
   if ( e.get_stamp().get_steps() % 2 ) // stamp is odd, drop it
   {
-    return;
+    return false;
   }
 
   // Even time stamp, we send the spike using the normal sending mechanism
@@ -177,6 +179,8 @@ DropOddSpikeConnection< targetidentifierT >::send( nest::Event& e, size_t t, con
   e.set_receiver( *ConnectionBase::get_target( t ) );
   e.set_rport( ConnectionBase::get_rport() );
   e(); // this sends the event
+
+  return true;
 }
 
 template < typename targetidentifierT >

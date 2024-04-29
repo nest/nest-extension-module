@@ -31,6 +31,7 @@
 // Includes from nestkernel:
 #include "exceptions.h"
 #include "kernel_manager.h"
+#include "nest_impl.h"
 #include "universal_data_logger_impl.h"
 
 // Includes from sli:
@@ -47,6 +48,12 @@ using namespace nest;
  * ---------------------------------------------------------------- */
 
 nest::RecordablesMap< mynest::pif_psc_alpha > mynest::pif_psc_alpha::recordablesMap_;
+
+void
+mynest::register_pif_psc_alpha( const std::string& name )
+{
+  register_node_model< pif_psc_alpha >( name );
+}
 
 namespace nest
 {

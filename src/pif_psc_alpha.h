@@ -36,6 +36,7 @@
 
 namespace mynest
 {
+  void register_pif_psc_alpha( const std::string& name );
 
 /** @BeginDocumentation
 Name: pif_psc_alpha - Perfect integrate-and-fire neuron model with alpha PSC
