@@ -12,7 +12,7 @@ NEST has a very flexible system to allow users to write their own synapse types.
 * The target node of the connection
 * The receiver port, which identifies the connection on the postsynaptic side
 
-The source node of a connection is implicitly stored by the position in the data structure that is used internally. These parameters are implemented in the StaticConnection synapse type, which can be used as a base class for more advanced synapse types.  
+The source node of a connection is implicitly stored by the position in the data structure that is used internally. These parameters are implemented in the ``static_synapse`` synapse type, which can be used as a base class for more advanced synapse types.
 
 
 Synapses in NEST

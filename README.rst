@@ -1,8 +1,6 @@
 NEST Extension Module Example
 =============================
 
-   This version of the extension module code will not work with NEST
-   3.6 or earlier. It is adapted to NEST Master as of 15 December 2023.
 This repository contains an example extension module (i.e a "plugin") for
 the `NEST Simulator <https://nest-simulator.org>`_. Extension modules allow
 users to extend the functionality of NEST without altering the source
@@ -14,8 +12,9 @@ https://nest-extension-module.readthedocs.io/.
 
 .. attention::
 
-   Please note that the code in this repository is compatible with the latest
-   NEST version only; in particular the git "master" branch on
+   Please note that the code in this repository will not work with NEST
+   3.6 or earlier. It is adapted to NEST Master as of 15 December 2023.
+   It will in general be kept up-to-date with the git "master" branch on
    https://github.com/nest/nest-simulator. For 2.x versions of NEST, see the
    extension module example in ``examples/MyModule`` of the source distribution.
 
