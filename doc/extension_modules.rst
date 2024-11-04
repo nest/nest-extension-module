@@ -6,11 +6,7 @@ Writing an extension module
    The example extension module is hosted on its own repository, at:
    https://github.com/nest/nest-extension-module/
 
-NEST has a modular architecture which allows you to add your own
-neuron and synapse models to the NEST simulator without any need to
-modify the NEST software itself, but by just adding a new module. You
-can then either load this module dynamically at runtime (preferred) or
-you can link NEST against your module.
+NEST has a modular architecture which allows you to add your own neuron and synapse models without any need to modify the NEST source code itself, but by just adding a new module. You can then either load this module dynamically at runtime (preferred) or you can link NEST against your module.
 
 By writing a new module, you can add
 
@@ -18,22 +14,16 @@ By writing a new module, you can add
 * your own synapse types
 * your own connection (or other) functions
 
-to NEST. For the benefit of the NEST Community at large, we would
-encourage you to share your modules with other NEST users. Please see
-the `contributing <https://nest-simulator.readthedocs.io/en/latest/contribute/index.html>`_
-page to find out how to initiate the inclusion by issuing a pull request.
+to NEST. For the benefit of the NEST Community at large, we would encourage you to share your modules with other NEST users. Please see the `contributing <https://nest-simulator.readthedocs.io/en/stable/developer_space/index.html>`_ page to find out how to initiate the inclusion by issuing a pull request.
 
-On this page, you will find a (brief) overview over how to create your
-own module, based on the example ``MyModule``, which you find at
-https://github.com/nest/nest-extension-module/. For information about
-how to write new neuron or synapse models or functions as part of your
-module, please see the corresponding documentation linked on the
-:doc:`developer documentation index <index>`.
+On this page, you will find an overview of how to create your own module, based on the example ``MyModule``, which you find at https://github.com/nest/nest-extension-module/.
 
-If you have questions, problems, or feedback about your experience
-with external modules, please join the `mailing
-list <http://www.nest-initiative.org/community>`_ to share it with us
-and other users.
+If you have questions, problems, or feedback about your experience with external modules, please join the `mailing list <https://nest-simulator.readthedocs.io/en/stable/community.html>`_ to share it with us ·and other users.
+
+.. note::
+
+   For developing custom neuron and synapse models, please consider using `the NESTML modeling language <https://nestml.readthedocs.org/>`_.
+
 
 Prerequisites
 -------------
@@ -52,76 +42,53 @@ Prerequisites
 Building MyModule
 -----------------
 
-As a starting point, try to build MyModule as follows:
-
-1. From the NEST source directory, copy directory ``MyModule`` to somewhere outside the NEST source, build or install directories.
-2. Create a build directory for it on the same level as MyModule (e.g. mmb)
+1. Create a build directory:
 
    .. code-block:: sh
 
-      cd /path/to/MyModule
-      cd ..
-      mkdir mmb
-      cd mmb
+      mkdir build
+      cd build
 
-3. Configure. The configure process uses the script ``nest-config`` to find out where NEST is installed, where the source code resides, and which compiler options were used for compiling NEST. If ``nest-config`` is not in your path, you need to provided it explicitly like this
+3. Configure. The configure process uses the script ``nest-config`` to find out where NEST is installed, where the source code resides, and which compiler options were used for compiling NEST. If ``nest-config`` is not in your path, you need to provide it explicitly like this
 
    .. code-block:: sh
 
-      cmake -Dwith-nest=${NEST_INSTALL_DIR}/bin/nest-config ../MyModule
+      cmake -Dwith-nest=${NEST_INSTALL_DIR}/bin/nest-config ..
 
-   MyModule will then be installed to ``${NEST_INSTALL_DIR}``. This ensures that NEST will be able to find initializing SLI files for the module.
+   Please ensure that any other custom CMake flags (such as ``with-optimize``, ``with-mpi``, ``with-openmp`` and so on) are the same as were used for the NEST Simulator build.
 
-   You should not use the `-DCMAKE_INSTALL_PREFIX` to select a different installation destination. If you do, you must make sure to use ``addpath`` in SLI before loading the module to ensure that NEST will find the SLI initialization file for your module.
+   It is not recommended to use ``-DCMAKE_INSTALL_PREFIX`` to select a different installation destination. If you do, you must make sure to use environment variables like ``LD_LIBRARY_PATH`` to ensure NEST can locate the module.
 
-4. Compile.
+4. Compile and install:
 
    .. code-block:: sh
 
       make
       make install
 
-5. The previous command installed MyModule to the NEST installation directory, including help files generated from the source code.
+   MyModule will then be installed to ``${NEST_INSTALL_DIR}``.
 
 
 Using MyModule
 --------------
 
-1. Start NEST.
-2. Load the module using
+To use the new module in NEST Simulator, first source the ``nest_vars.sh`` script in the installation directory, and then use the ``nest.Install()`` API call to load the module:
 
-   .. code-block::
+.. code-block:: sh
 
-      SLI ] (mymodule) Install
-      Apr 30 17:06:11: *** Info: Install
-      Apr 30 17:06:11: loaded module My NEST Module
+   source $NEST_INSTALL_DIR/bin/nest_vars.sh
+   python -c 'import nest; nest.Install("mymodule")'
 
-3. You should now see ``pif_psc_alpha`` in the ``modeldict`` and ``drop_odd_spike`` in the ``synapsedict``. You can learn more about these models and the additional (meaningless) connection function supplied by the model by typing
-
-   ```
-   /pif_psc_alpha help
-   /drop_odd_spike help
-   /StepPatternConnect help
-   ```
-
-4. In PyNEST, use
-
-   .. code-block:: Python
-
-      nest.Install("mymodule")
-
-   This is available under Linux and MacOS. Link the module into NEST as described below if you run into problems.
+After loading the module, you should be able to see ``pif_psc_alpha`` in ``nest.node_models`` and ``drop_odd_spike`` in ``nest.synapse_models``.
 
 
 Creating your own module
 ------------------------
 
 1. Start with the code from MyModule.
-2. Follow the instructions (1. - 4.) at the top of the ``CMakeLists.txt`` file in the MyModule directory.
-3. Replace anything called "mymodule" in any form of camelcasing by the name of your module, and proceed as above.
-4. When you change names of source code files or add/remove files, you need to update the variable `MODULE_SOURCES` in `CMakeLists.txt` .
-5. ``make dist`` will roll a tarball of your module for distribution to others.
-6. ``mymodule.cpp`` and ``sli/mymodule.sli`` contain versioning information that you may want to update. It helps to keep the C++ code and SLI wrapper of your module in sync.
+2. Replace anything called ``mymodule`` in any form of camelcasing by the name of your module, and proceed as above.
+3. When you change names of source code files or add/remove files, you need to update the variable ``MODULE_SOURCES`` in ``CMakeLists.txt``.
+4. ``make dist`` will roll a tarball of your module for distribution to others.
 
 
 Linking MyModule into NEST
@@ -141,10 +108,10 @@ Linking MyModule into NEST
 
       Instead of giving the full module name ``mymodule``, only give the ``SHORT_NAME`` ``my`` for the option ``-Dexternal-modules=...``.
 
-1. Recompile and install NEST.
-2. The module should now be available as soon as NEST has started up. It will also be available in PyNEST.
-3. When you make any change to your module, you must first re-compile and re-install your module.
-4. Then move to the NEST build directory and issue
+4. Recompile and install NEST.
+5. The module should now be available as soon as NEST has started up. It will also be available in PyNEST.
+6. When you make any change to your module, you must first re-compile and re-install your module.
+7. Then move to the NEST build directory and issue
 
    .. code-block:: sh
 
