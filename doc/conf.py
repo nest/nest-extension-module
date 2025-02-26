@@ -177,5 +177,3 @@ latex_documents = [
     (master_doc, 'NESTextmod.tex', u'NEST Simulator extension module documentation',
      u'NEST Developer Community', 'manual'),
 ]
-
-copyfile('../README.rst', 'README.rst')
