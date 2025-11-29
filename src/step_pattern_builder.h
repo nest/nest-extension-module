@@ -35,8 +35,8 @@ public:
   StepPatternBuilder( const nest::NodeCollectionPTR sources,
     const nest::NodeCollectionPTR targets,
     nest::ThirdOutBuilder* third_out,
-    const DictionaryDatum& conn_spec,
-    const std::vector< DictionaryDatum >& syn_spec );
+    const dictionary& conn_spec,
+    const std::vector< dictionary >& syn_spec );
 
 protected:
   void connect_() override;

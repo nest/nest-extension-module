@@ -27,9 +27,6 @@
 #include "recording_device.h"
 #include "vp_manager_impl.h"
 
-// Includes from sli:
-#include "dictutils.h"
-
 #include "recording_backend_socket.h"
 
 mynest::RecordingBackendSocket::RecordingBackendSocket()
@@ -53,7 +50,7 @@ mynest::RecordingBackendSocket::finalize()
 }
 
 void
-mynest::RecordingBackendSocket::enroll( const nest::RecordingDevice& device, const DictionaryDatum& params )
+mynest::RecordingBackendSocket::enroll( const nest::RecordingDevice& device, const dictionary& params )
 {
   if ( device.get_type() != nest::RecordingDevice::SPIKE_RECORDER )
   {
@@ -69,8 +66,8 @@ mynest::RecordingBackendSocket::disenroll( const nest::RecordingDevice& device )
 
 void
 mynest::RecordingBackendSocket::set_value_names( const nest::RecordingDevice&,
-  const std::vector< Name >&,
-  const std::vector< Name >& )
+						 const std::vector< std::string >&,
+						 const std::vector< std::string >& )
 {
   // nothing to do
 }
@@ -136,22 +133,22 @@ mynest::RecordingBackendSocket::Parameters_::Parameters_()
 }
 
 void
-mynest::RecordingBackendSocket::Parameters_::get( DictionaryDatum& d ) const
+mynest::RecordingBackendSocket::Parameters_::get( dictionary& d ) const
 {
-  ( *d )[ "ip" ] = ip_;
-  ( *d )[ "port" ] = port_;
+  d[ "ip" ] = ip_;
+  d[ "port" ] = port_;
 }
 
 void
-mynest::RecordingBackendSocket::Parameters_::set( const DictionaryDatum& d )
+mynest::RecordingBackendSocket::Parameters_::set( const dictionary& d )
 {
-  updateValue< std::string >( d, "ip", ip_ );
-  updateValue< long >( d, "port", port_ );
+  d.update_value( "ip", ip_ );
+  d.update_value( "port", port_ );
 }
 
 // Set the status of the recording backend
 void
-mynest::RecordingBackendSocket::set_status( const DictionaryDatum& d )
+mynest::RecordingBackendSocket::set_status( const dictionary& d )
 {
   Parameters_ ptmp = P_; // temporary copy in case of errors
   ptmp.set( d );         // throws if BadProperty
@@ -162,25 +159,25 @@ mynest::RecordingBackendSocket::set_status( const DictionaryDatum& d )
 
 // Return the status of the recording backend
 void
-mynest::RecordingBackendSocket::get_status( DictionaryDatum& d ) const
+mynest::RecordingBackendSocket::get_status( dictionary& d ) const
 {
   P_.get( d );
 }
 
 void
-mynest::RecordingBackendSocket::check_device_status( const DictionaryDatum& ) const
+mynest::RecordingBackendSocket::check_device_status( const dictionary& ) const
 {
   // nothing to do
 }
 
 void
-mynest::RecordingBackendSocket::get_device_defaults( DictionaryDatum& ) const
+mynest::RecordingBackendSocket::get_device_defaults( dictionary& ) const
 {
   // nothing to do
 }
 
 void
-mynest::RecordingBackendSocket::get_device_status( const nest::RecordingDevice&, DictionaryDatum& ) const
+mynest::RecordingBackendSocket::get_device_status( const nest::RecordingDevice&, dictionary& ) const
 {
   // nothing to do
 }

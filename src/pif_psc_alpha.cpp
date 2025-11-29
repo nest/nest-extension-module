@@ -25,21 +25,11 @@
 // C++ includes:
 #include <limits>
 
-// Includes from libnestutil:
-#include "numerics.h"
+#include "dict_util.h"
 
-// Includes from nestkernel:
-#include "exceptions.h"
-#include "kernel_manager.h"
+// Includes from nestkernel: impls here are requiered to ensure template instantiation
 #include "nest_impl.h"
 #include "universal_data_logger_impl.h"
-
-// Includes from sli:
-#include "dict.h"
-#include "dictutils.h"
-#include "doubledatum.h"
-#include "integerdatum.h"
-#include "sharedptrdatum.h"
 
 using namespace nest;
 
@@ -52,7 +42,7 @@ nest::RecordablesMap< mynest::pif_psc_alpha > mynest::pif_psc_alpha::recordables
 void
 mynest::register_pif_psc_alpha( const std::string& name )
 {
-  register_node_model< pif_psc_alpha >( name );
+  nest::register_node_model< pif_psc_alpha >( name );
 }
 
 namespace nest
@@ -97,25 +87,25 @@ mynest::pif_psc_alpha::State_::State_( const Parameters_& p )
  * ---------------------------------------------------------------- */
 
 void
-mynest::pif_psc_alpha::Parameters_::get( DictionaryDatum& d ) const
+mynest::pif_psc_alpha::Parameters_::get( dictionary& d ) const
 {
-  ( *d )[ names::C_m ] = C_m;
-  ( *d )[ names::I_e ] = I_e;
-  ( *d )[ names::tau_syn ] = tau_syn;
-  ( *d )[ names::V_th ] = V_th;
-  ( *d )[ names::V_reset ] = V_reset;
-  ( *d )[ names::t_ref ] = t_ref;
+  d[ names::C_m ] = C_m;
+  d[ names::I_e ] = I_e;
+  d[ names::tau_syn ] = tau_syn;
+  d[ names::V_th ] = V_th;
+  d[ names::V_reset ] = V_reset;
+  d[ names::t_ref ] = t_ref;
 }
 
 void
-mynest::pif_psc_alpha::Parameters_::set( const DictionaryDatum& d )
+mynest::pif_psc_alpha::Parameters_::set( const dictionary& d, nest::Node* node )
 {
-  updateValue< double >( d, names::C_m, C_m );
-  updateValue< double >( d, names::I_e, I_e );
-  updateValue< double >( d, names::tau_syn, tau_syn );
-  updateValue< double >( d, names::V_th, V_th );
-  updateValue< double >( d, names::V_reset, V_reset );
-  updateValue< double >( d, names::t_ref, t_ref );
+  update_value_param( d, names::C_m, C_m, node );
+  update_value_param( d, names::I_e, I_e, node );
+  update_value_param( d, names::tau_syn, tau_syn, node );
+  update_value_param( d, names::V_th, V_th, node );
+  update_value_param( d, names::V_reset, V_reset, node );
+  update_value_param( d, names::t_ref, t_ref, node );
   if ( C_m <= 0 )
   {
     throw nest::BadProperty( "The membrane capacitance must be strictly positive." );
@@ -135,21 +125,19 @@ mynest::pif_psc_alpha::Parameters_::set( const DictionaryDatum& d )
 }
 
 void
-mynest::pif_psc_alpha::State_::get( DictionaryDatum& d ) const
+mynest::pif_psc_alpha::State_::get( dictionary& d ) const
 {
   // Only the membrane potential is shown in the status; one could show also the
   // other
   // state variables
-  ( *d )[ names::V_m ] = V_m;
+  d[ names::V_m ] = V_m;
 }
 
 void
-mynest::pif_psc_alpha::State_::set( const DictionaryDatum& d, const Parameters_& p )
+mynest::pif_psc_alpha::State_::set( const dictionary& d, const Parameters_& p, nest::Node* node )
 {
-  // Only the membrane potential can be set; one could also make other state
-  // variables
-  // settable.
-  updateValue< double >( d, names::V_m, V_m );
+  // Only the membrane potential can be set; one could also make other state variables settable.
+  update_value_param( d, names::V_m, V_m, node );
 }
 
 mynest::pif_psc_alpha::Buffers_::Buffers_( pif_psc_alpha& n )

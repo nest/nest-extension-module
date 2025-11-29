@@ -42,7 +42,7 @@ target_link_libraries(${MODULE_NAME}_module ${USER_LINK_LIBRARIES})
 set_target_properties( ${MODULE_NAME}_module
    PROPERTIES
    COMPILE_FLAGS "${NEST_CXXFLAGS} -DLTX_MODULE"
-   LINK_FLAGS "${NEST_LIBS}"
+   LINK_FLAGS "-Wl,-undefined,dynamic_lookup"
    PREFIX ""
    OUTPUT_NAME ${MODULE_NAME} )
 install( TARGETS ${MODULE_NAME}_module
