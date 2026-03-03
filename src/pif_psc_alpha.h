@@ -133,8 +133,8 @@ public:
   size_t handles_test_event( nest::DataLoggingRequest&, size_t ) override;
   /** @} */
 
-  void get_status( dictionary& ) const override;
-  void set_status( const dictionary& ) override;
+  void get_status( Dictionary& ) const override;
+  void set_status( const Dictionary& ) override;
 
 private:
   //! Reset internal buffers of neuron.
@@ -179,11 +179,11 @@ private:
     //! Initialize parameters to their default values.
     Parameters_();
 
-    //! Store parameter values in dictionary.
-    void get( dictionary& ) const;
+    //! Store parameter values in Dictionary.
+    void get( Dictionary& ) const;
 
-    //! Set parameter values from dictionary.
-    void set( const dictionary&, nest::Node* );
+    //! Set parameter values from Dictionary.
+    void set( const Dictionary&, nest::Node* );
   };
 
   /**
@@ -221,15 +221,15 @@ private:
      */
     State_( const Parameters_& );
 
-    /** Store state values in dictionary. */
-    void get( dictionary& ) const;
+    /** Store state values in Dictionary. */
+    void get( Dictionary& ) const;
 
     /**
-     * Set membrane potential from dictionary.
+     * Set membrane potential from Dictionary.
      * @note Receives Parameters_ so it can test that the new membrane potential
      *       is below threshold.
      */
-    void set( const dictionary&, const Parameters_&, nest::Node* );
+    void set( const Dictionary&, const Parameters_&, nest::Node* );
   };
 
   /**
@@ -368,7 +368,7 @@ mynest::pif_psc_alpha::handles_test_event( nest::DataLoggingRequest& dlr, size_t
 }
 
 inline void
-pif_psc_alpha::get_status( dictionary& d ) const
+pif_psc_alpha::get_status( Dictionary& d ) const
 {
   // get our own parameter and state data
   P_.get( d );
@@ -381,7 +381,7 @@ pif_psc_alpha::get_status( dictionary& d ) const
 }
 
 inline void
-pif_psc_alpha::set_status( const dictionary& d )
+pif_psc_alpha::set_status( const Dictionary& d )
 {
   Parameters_ ptmp = P_; // temporary copy in case of errors
   ptmp.set( d, this );         // throws if BadProperty

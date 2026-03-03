@@ -50,7 +50,7 @@ mynest::RecordingBackendSocket::finalize()
 }
 
 void
-mynest::RecordingBackendSocket::enroll( const nest::RecordingDevice& device, const dictionary& params )
+mynest::RecordingBackendSocket::enroll( const nest::RecordingDevice& device, const Dictionary& params )
 {
   if ( device.get_type() != nest::RecordingDevice::SPIKE_RECORDER )
   {
@@ -133,14 +133,14 @@ mynest::RecordingBackendSocket::Parameters_::Parameters_()
 }
 
 void
-mynest::RecordingBackendSocket::Parameters_::get( dictionary& d ) const
+mynest::RecordingBackendSocket::Parameters_::get( Dictionary& d ) const
 {
   d[ "ip" ] = ip_;
   d[ "port" ] = port_;
 }
 
 void
-mynest::RecordingBackendSocket::Parameters_::set( const dictionary& d )
+mynest::RecordingBackendSocket::Parameters_::set( const Dictionary& d )
 {
   d.update_value( "ip", ip_ );
   d.update_value( "port", port_ );
@@ -148,7 +148,7 @@ mynest::RecordingBackendSocket::Parameters_::set( const dictionary& d )
 
 // Set the status of the recording backend
 void
-mynest::RecordingBackendSocket::set_status( const dictionary& d )
+mynest::RecordingBackendSocket::set_status( const Dictionary& d )
 {
   Parameters_ ptmp = P_; // temporary copy in case of errors
   ptmp.set( d );         // throws if BadProperty
@@ -159,25 +159,25 @@ mynest::RecordingBackendSocket::set_status( const dictionary& d )
 
 // Return the status of the recording backend
 void
-mynest::RecordingBackendSocket::get_status( dictionary& d ) const
+mynest::RecordingBackendSocket::get_status( Dictionary& d ) const
 {
   P_.get( d );
 }
 
 void
-mynest::RecordingBackendSocket::check_device_status( const dictionary& ) const
+mynest::RecordingBackendSocket::check_device_status( const Dictionary& ) const
 {
   // nothing to do
 }
 
 void
-mynest::RecordingBackendSocket::get_device_defaults( dictionary& ) const
+mynest::RecordingBackendSocket::get_device_defaults( Dictionary& ) const
 {
   // nothing to do
 }
 
 void
-mynest::RecordingBackendSocket::get_device_status( const nest::RecordingDevice&, dictionary& ) const
+mynest::RecordingBackendSocket::get_device_status( const nest::RecordingDevice&, Dictionary& ) const
 {
   // nothing to do
 }

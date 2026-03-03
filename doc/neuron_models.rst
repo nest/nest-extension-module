@@ -39,7 +39,7 @@ most important functions are:
   parameters of the model. This function is called when SetStatus is
   executed in SLI.
 * ``void get_properties(DictionaryDatum & d) const``: Retrieve a
-  dictionary with parameters from the model. This is the C++ end of
+  Dictionary with parameters from the model. This is the C++ end of
   the SLI function GetStatus.
 
 The following sections will explain each of these functions in detail

@@ -69,7 +69,7 @@ public:
 
   void finalize() override;
 
-  void enroll( const nest::RecordingDevice& device, const dictionary& params ) override;
+  void enroll( const nest::RecordingDevice& device, const Dictionary& params ) override;
 
   void disenroll( const nest::RecordingDevice& device ) override;
 
@@ -89,15 +89,15 @@ public:
 
   void write( const nest::RecordingDevice&, const nest::Event&, const std::vector< double >&, const std::vector< long >& ) override;
 
-  void set_status( const dictionary& ) override;
+  void set_status( const Dictionary& ) override;
 
-  void get_status( dictionary& ) const override;
+  void get_status( Dictionary& ) const override;
 
-  void check_device_status( const dictionary& ) const override;
+  void check_device_status( const Dictionary& ) const override;
 
-  void get_device_defaults( dictionary& ) const override;
+  void get_device_defaults( Dictionary& ) const override;
 
-  void get_device_status( const nest::RecordingDevice&, dictionary& ) const override;
+  void get_device_status( const nest::RecordingDevice&, Dictionary& ) const override;
 
 private:
   struct Parameters_
@@ -107,8 +107,8 @@ private:
 
     Parameters_();
 
-    void get( dictionary& ) const;
-    void set( const dictionary& );
+    void get( Dictionary& ) const;
+    void set( const Dictionary& );
   };
 
   struct Buffers_

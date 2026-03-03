@@ -87,7 +87,7 @@ mynest::pif_psc_alpha::State_::State_( const Parameters_& p )
  * ---------------------------------------------------------------- */
 
 void
-mynest::pif_psc_alpha::Parameters_::get( dictionary& d ) const
+mynest::pif_psc_alpha::Parameters_::get( Dictionary& d ) const
 {
   d[ names::C_m ] = C_m;
   d[ names::I_e ] = I_e;
@@ -98,7 +98,7 @@ mynest::pif_psc_alpha::Parameters_::get( dictionary& d ) const
 }
 
 void
-mynest::pif_psc_alpha::Parameters_::set( const dictionary& d, nest::Node* node )
+mynest::pif_psc_alpha::Parameters_::set( const Dictionary& d, nest::Node* node )
 {
   update_value_param( d, names::C_m, C_m, node );
   update_value_param( d, names::I_e, I_e, node );
@@ -125,7 +125,7 @@ mynest::pif_psc_alpha::Parameters_::set( const dictionary& d, nest::Node* node )
 }
 
 void
-mynest::pif_psc_alpha::State_::get( dictionary& d ) const
+mynest::pif_psc_alpha::State_::get( Dictionary& d ) const
 {
   // Only the membrane potential is shown in the status; one could show also the
   // other
@@ -134,7 +134,7 @@ mynest::pif_psc_alpha::State_::get( dictionary& d ) const
 }
 
 void
-mynest::pif_psc_alpha::State_::set( const dictionary& d, const Parameters_& p, nest::Node* node )
+mynest::pif_psc_alpha::State_::set( const Dictionary& d, const Parameters_& p, nest::Node* node )
 {
   // Only the membrane potential can be set; one could also make other state variables settable.
   update_value_param( d, names::V_m, V_m, node );

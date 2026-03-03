@@ -69,11 +69,11 @@
 mynest::StepPatternBuilder::StepPatternBuilder( const nest::NodeCollectionPTR sources,
   const nest::NodeCollectionPTR targets,
   nest::ThirdOutBuilder* third_out,
-  const dictionary& conn_spec,
-  const std::vector< dictionary >& syn_spec )
+  const Dictionary& conn_spec,
+  const std::vector< Dictionary >& syn_spec )
   : nest::BipartiteConnBuilder( sources, targets, third_out, conn_spec, syn_spec )
-  , source_step_( conn_spec.get_integer("source_step") )
-  , target_step_( conn_spec.get_integer("target_step") )
+  , source_step_( conn_spec.get<int>("source_step") )
+  , target_step_( conn_spec.get<int>("target_step") )
 {
   if ( source_step_ < 1 )
   {
