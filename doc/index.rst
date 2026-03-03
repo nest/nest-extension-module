@@ -10,3 +10,5 @@
    neuron_models
    synapses_overview
    synapse_models
+   Impressum <https://nest-initiative.org/impressum/>
+   Data protection <https://www.nest-initiative.org/data-protection/>
