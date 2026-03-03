@@ -9,3 +9,5 @@
    extension_modules
    neuron_models
    synapse_models
+   Impressum <https://nest-initiative.org/impressum/>
+   Data protection <https://www.nest-initiative.org/data-protection/>
