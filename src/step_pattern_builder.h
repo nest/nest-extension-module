@@ -29,11 +29,12 @@
 namespace mynest
 {
 
-class StepPatternBuilder : public nest::ConnBuilder
+class StepPatternBuilder : public nest::BipartiteConnBuilder
 {
 public:
   StepPatternBuilder( const nest::NodeCollectionPTR sources,
     const nest::NodeCollectionPTR targets,
+    nest::ThirdOutBuilder* third_out,
     const DictionaryDatum& conn_spec,
     const std::vector< DictionaryDatum >& syn_spec );
 
