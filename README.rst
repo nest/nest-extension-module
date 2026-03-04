@@ -13,7 +13,7 @@ https://nest-extension-module.readthedocs.io/.
 .. attention::
 
    Please note that the code in this repository will not work with NEST
-   versions that came before version 3.9. The extension module is generally
+   versions earlier than NEST 3.10. The extension module is generally
    kept adapted and up-to-date with the NEST ``master`` branch on
    https://github.com/nest/nest-simulator as well as the latest
    NEST release (starting from 3.9).
