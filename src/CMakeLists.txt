@@ -28,7 +28,7 @@ set( MODULE_SOURCES
 
 check_have_sfml_audio()
 if ( HAVE_SFML_AUDIO )
-  list( APPEND MODULE_SOURCES   
+  list( APPEND MODULE_SOURCES
         recording_backend_soundclick.h recording_backend_soundclick.cpp
       )
   set( USER_LINK_LIBRARIES sfml-audio )
@@ -42,7 +42,7 @@ target_link_libraries(${MODULE_NAME}_module ${USER_LINK_LIBRARIES})
 set_target_properties( ${MODULE_NAME}_module
    PROPERTIES
    COMPILE_FLAGS "${NEST_CXXFLAGS} -DLTX_MODULE"
-   LINK_FLAGS "-Wl,-undefined,dynamic_lookup"
+   LINK_FLAGS "${NEST_LIBS}"
    PREFIX ""
    OUTPUT_NAME ${MODULE_NAME} )
 install( TARGETS ${MODULE_NAME}_module
