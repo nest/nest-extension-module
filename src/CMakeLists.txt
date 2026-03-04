@@ -28,7 +28,7 @@ set( MODULE_SOURCES
 
 check_have_sfml_audio()
 if ( HAVE_SFML_AUDIO )
-  list( APPEND MODULE_SOURCES   
+  list( APPEND MODULE_SOURCES
         recording_backend_soundclick.h recording_backend_soundclick.cpp
       )
   set( USER_LINK_LIBRARIES sfml-audio )

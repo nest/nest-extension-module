@@ -22,23 +22,11 @@
 
 #include <memory>
 
-// Includes from libnestutil:
-#include "logging.h"
-
-// Includes from nestkernel:
-#include "conn_parameter.h"
-#include "exceptions.h"
-#include "kernel_manager.h"
-#include "nest_names.h"
-#include "node.h"
-#include "vp_manager_impl.h"
-
-// Includes from sli:
-#include "dict.h"
-#include "fdstream.h"
-#include "name.h"
-
 #include "step_pattern_builder.h"
+
+// Includes from NEST
+#include "nest_extension_interface.h"
+
 
 /** @BeginDocumentation
    Name: step_pattern - Rule connecting sources and targets with a step pattern
@@ -81,11 +69,11 @@
 mynest::StepPatternBuilder::StepPatternBuilder( const nest::NodeCollectionPTR sources,
   const nest::NodeCollectionPTR targets,
   nest::ThirdOutBuilder* third_out,
-  const DictionaryDatum& conn_spec,
-  const std::vector< DictionaryDatum >& syn_spec )
+  const Dictionary& conn_spec,
+  const std::vector< Dictionary >& syn_spec )
   : nest::BipartiteConnBuilder( sources, targets, third_out, conn_spec, syn_spec )
-  , source_step_( ( *conn_spec )[ Name( "source_step" ) ] )
-  , target_step_( ( *conn_spec )[ Name( "target_step" ) ] )
+  , source_step_( conn_spec.get<int>("source_step") )
+  , target_step_( conn_spec.get<int>("target_step") )
 {
   if ( source_step_ < 1 )
   {
@@ -138,13 +126,12 @@ mynest::StepPatternBuilder::connect_()
         }
       }
     }
-    catch ( std::exception& err )
+   catch ( ... )
     {
-      // We must create a new exception here, err's lifetime ends at
-      // the end of the catch block.
-      exceptions_raised_.at( tid ) = std::make_shared< WrappedThreadException >( err );
+      // Capture the current exception object and create an std::exception_ptr
+      exceptions_raised_.at( tid ) = std::current_exception();
     }
-  }
+   }
 }
 
 void

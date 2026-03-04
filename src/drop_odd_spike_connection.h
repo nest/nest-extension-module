@@ -141,8 +141,8 @@ public:
   // corresponding tasks to corresponding methods in the base class and the w_
   // data member holding the weight.
 
-  //! Store connection status information in dictionary
-  void get_status( DictionaryDatum& d ) const;
+  //! Store connection status information in Dictionary
+  void get_status( Dictionary& d ) const;
 
   /**
    * Set connection status.
@@ -150,7 +150,7 @@ public:
    * @param d Dictionary with new parameter values
    * @param cm ConnectorModel is passed along to validate new delay values
    */
-  void set_status( const DictionaryDatum& d, nest::ConnectorModel& cm );
+  void set_status( const Dictionary& d, nest::ConnectorModel& cm );
 
   //! Allows efficient initialization on contstruction
   void
@@ -185,19 +185,19 @@ DropOddSpikeConnection< targetidentifierT >::send( nest::Event& e, size_t t, con
 
 template < typename targetidentifierT >
 void
-DropOddSpikeConnection< targetidentifierT >::get_status( DictionaryDatum& d ) const
+DropOddSpikeConnection< targetidentifierT >::get_status( Dictionary& d ) const
 {
   ConnectionBase::get_status( d );
-  def< double >( d, nest::names::weight, weight_ );
-  def< long >( d, nest::names::size_of, sizeof( *this ) );
+  d[ nest::names::weight ] = weight_;
+  d[ nest::names::size_of ] = sizeof( *this );
 }
 
 template < typename targetidentifierT >
 void
-DropOddSpikeConnection< targetidentifierT >::set_status( const DictionaryDatum& d, nest::ConnectorModel& cm )
+DropOddSpikeConnection< targetidentifierT >::set_status( const Dictionary& d, nest::ConnectorModel& cm )
 {
   ConnectionBase::set_status( d, cm );
-  updateValue< double >( d, nest::names::weight, weight_ );
+  d.update_value( nest::names::weight, weight_ );
 }
 
 } // namespace

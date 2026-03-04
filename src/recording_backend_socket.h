@@ -23,13 +23,17 @@
 #ifndef RECORDING_BACKEND_SOCKET_H
 #define RECORDING_BACKEND_SOCKET_H
 
-// Includes for network access:
+// Includes for network access
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
 
+// Includes from NEST
 #include "recording_backend.h"
+
+#include <string>
+
 
 namespace mynest
 {
@@ -65,13 +69,13 @@ public:
 
   void finalize() override;
 
-  void enroll( const nest::RecordingDevice& device, const DictionaryDatum& params ) override;
+  void enroll( const nest::RecordingDevice& device, const Dictionary& params ) override;
 
   void disenroll( const nest::RecordingDevice& device ) override;
 
   void set_value_names( const nest::RecordingDevice& device,
-    const std::vector< Name >& double_value_names,
-    const std::vector< Name >& long_value_names ) override;
+			const std::vector< std::string >& double_value_names,
+			const std::vector< std::string >& long_value_names ) override;
 
   void prepare() override;
 
@@ -85,15 +89,15 @@ public:
 
   void write( const nest::RecordingDevice&, const nest::Event&, const std::vector< double >&, const std::vector< long >& ) override;
 
-  void set_status( const DictionaryDatum& ) override;
+  void set_status( const Dictionary& ) override;
 
-  void get_status( DictionaryDatum& ) const override;
+  void get_status( Dictionary& ) const override;
 
-  void check_device_status( const DictionaryDatum& ) const override;
+  void check_device_status( const Dictionary& ) const override;
 
-  void get_device_defaults( DictionaryDatum& ) const override;
+  void get_device_defaults( Dictionary& ) const override;
 
-  void get_device_status( const nest::RecordingDevice&, DictionaryDatum& ) const override;
+  void get_device_status( const nest::RecordingDevice&, Dictionary& ) const override;
 
 private:
   struct Parameters_
@@ -103,8 +107,8 @@ private:
 
     Parameters_();
 
-    void get( DictionaryDatum& ) const;
-    void set( const DictionaryDatum& );
+    void get( Dictionary& ) const;
+    void set( const Dictionary& );
   };
 
   struct Buffers_

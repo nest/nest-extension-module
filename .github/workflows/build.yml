@@ -39,7 +39,7 @@ jobs:
       - name: Mac OS dependencies
         if: runner.os == 'macOS'
         run: |
-          brew install coreutils gsl open-mpi automake autoconf libtool
+          brew install coreutils gsl open-mpi automake autoconf libtool boost
 
       # Install python dependencies
       - name: Install Python dependencies

@@ -115,6 +115,12 @@ execute_process(
     OUTPUT_STRIP_TRAILING_WHITESPACE
 )
 
+if ( APPLE )
+    # delay lookup of symbols; this is specific for Mac build environment
+    string(APPEND NEST_LIBS " -Wl,-undefined -Wl,dynamic_lookup")
+endif ()
+
+
 # Get the data install dir.
 execute_process(
     COMMAND ${NEST_CONFIG} --datadir

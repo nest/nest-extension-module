@@ -57,7 +57,7 @@ public:
 
   ~RecordingBackendSoundClick() throw();
 
-  void enroll( const RecordingDevice& device, const DictionaryDatum& params ) override;
+  void enroll( const RecordingDevice& device, const Dictionary& params ) override;
 
   void disenroll( const RecordingDevice& device ) override;
 
@@ -81,15 +81,15 @@ public:
 
   void write( const RecordingDevice&, const Event&, const std::vector< double >&, const std::vector< long >& ) override;
 
-  void set_status( const DictionaryDatum& ) override;
+  void set_status( const Dictionary& ) override;
 
-  void get_status( DictionaryDatum& ) const override;
+  void get_status( Dictionary& ) const override;
 
-  void check_device_status( const DictionaryDatum& ) const override;
+  void check_device_status( const Dictionary& ) const override;
 
-  void get_device_defaults( DictionaryDatum& ) const override;
+  void get_device_defaults( Dictionary& ) const override;
 
-  void get_device_status( const RecordingDevice&, DictionaryDatum& ) const override;
+  void get_device_status( const RecordingDevice&, Dictionary& ) const override;
 
 private:
   // NEST Stopwatch object

@@ -51,7 +51,7 @@ nest::RecordingBackendSoundClick::finalize()
 }
 
 void
-nest::RecordingBackendSoundClick::enroll( const RecordingDevice& device, const DictionaryDatum& )
+nest::RecordingBackendSoundClick::enroll( const RecordingDevice& device, const Dictionary& )
 {
   if ( device.get_type() != RecordingDevice::SPIKE_RECORDER )
   {
@@ -136,31 +136,31 @@ nest::RecordingBackendSoundClick::write( const RecordingDevice& device,
 }
 
 void
-nest::RecordingBackendSoundClick::set_status( const DictionaryDatum& )
+nest::RecordingBackendSoundClick::set_status( const Dictionary& )
 {
   // nothing to do
 }
 
 void
-nest::RecordingBackendSoundClick::get_status( DictionaryDatum& ) const
+nest::RecordingBackendSoundClick::get_status( Dictionary& ) const
 {
   // nothing to do
 }
 
 void
-nest::RecordingBackendSoundClick::check_device_status( const DictionaryDatum& ) const
+nest::RecordingBackendSoundClick::check_device_status( const Dictionary& ) const
 {
   // nothing to do
 }
 
 void
-nest::RecordingBackendSoundClick::get_device_defaults( DictionaryDatum& ) const
+nest::RecordingBackendSoundClick::get_device_defaults( Dictionary& ) const
 {
   // nothing to do
 }
 
 void
-nest::RecordingBackendSoundClick::get_device_status( const RecordingDevice&, DictionaryDatum& ) const
+nest::RecordingBackendSoundClick::get_device_status( const RecordingDevice&, Dictionary& ) const
 {
   // nothing to do
 }
