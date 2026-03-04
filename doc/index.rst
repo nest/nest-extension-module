@@ -1,14 +1,13 @@
-.. include:: README.rst
+.. include:: overview.rst
 
 .. toctree::
    :hidden:
    :titlesonly:
    :maxdepth: 1
 
-   README
+   overview
    extension_modules
    neuron_models
-   synapses_overview
    synapse_models
    Impressum <https://nest-initiative.org/impressum/>
    Data protection <https://www.nest-initiative.org/data-protection/>
