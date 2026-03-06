@@ -105,5 +105,7 @@ jobs:
           VERBOSE=1 make -j 2
           make install
 
-          . $NEST_RESULT/bin/nest_vars.sh
+          # . $NEST_RESULT/bin/nest_vars.sh
+          export PYTHONPATH=$PYTHONPATH:$NEST_RESULT/lib/python3.12/site-packages
+          echo "PYTHONPATH=$PYTHONPATH"
           python -c 'import nest; nest.Install("mymodule")'
