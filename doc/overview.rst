@@ -2,7 +2,7 @@ NEST Extension Module Example
 =============================
 
 This repository contains an example extension module (i.e., a "plugin") for
-the `NEST Simulator <https://nest-simulator.org>`_. Extension modules allow
+`NEST Simulator <https://nest-simulator.org>`_. Extension modules allow
 users to extend the functionality of NEST without messing with the source
 code of NEST itself, thus making pulls from upstream easy, while allowing
 to extend NEST and sharing the extensions with other researchers.
@@ -38,10 +38,15 @@ of this repository.
 .. attention::
 
    Please note that the code in this repository will not work with NEST
-   3.6 or earlier. It is adapted to NEST Master as of 15 December 2023.
-   It will in general be kept up-to-date with the git "master" branch on
-   https://github.com/nest/nest-simulator. For 2.x versions of NEST, see the
-   extension module example in ``examples/MyModule`` of the source distribution.
+   versions earlier than NEST 3.10. The extension module is generally
+   kept adapted and up-to-date with the NEST ``main`` branch on
+   https://github.com/nest/nest-simulator as well as the latest
+   NEST release (starting from NEST 3.10).
+
+   For extension modules that support older versions of NEST, please browse
+   the history of this repository. For support for 2.x versions of NEST, see
+   the extension module example in ``examples/MyModule`` of the source
+   distribution.
 
 
 Adapting ``MyModule``
