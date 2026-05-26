@@ -103,10 +103,10 @@ both of them are shown shown in the following listings:
          ~my_synapse () {}
 
          update_dynamics ();
-         void send (Event & e, double_t t_lastspike, const CommonSynapseProperties & cp);
+         void send (Event & e, const size_t tid, const CommonSynapseProperties & cp);
      };
 
-     inline void my_synapse::send (Event & e, double_t t_lastspike, const CommonSynapseProperties &)
+     inline void my_synapse::send (Event & e, const size_t tid, const CommonSynapseProperties &)
      {
        update_dynamics();
 
