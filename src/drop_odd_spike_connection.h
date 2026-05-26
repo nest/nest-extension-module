@@ -189,7 +189,7 @@ DropOddSpikeConnection< targetidentifierT >::get_status( Dictionary& d ) const
 {
   ConnectionBase::get_status( d );
   d[ nest::names::weight ] = weight_;
-  d[ nest::names::size_of ] = sizeof( *this );
+  d[ nest::names::size_of ] = static_cast< long >(sizeof( *this ));
 }
 
 template < typename targetidentifierT >
