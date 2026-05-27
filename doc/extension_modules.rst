@@ -42,22 +42,20 @@ Prerequisites
 Building MyModule
 -----------------
 
-1. From inside the ``nest-extension-module`` source directory, create a build directory:
+1. Create a build directory outside the source code directory for the extension module (and outside the build directory for NEST itself).
 
    .. code-block:: sh
 
-      mkdir build
-      cd build
+      mkdir build-ext
+      cd build-ext
 
-3. Configure. The configure process uses the script ``nest-config`` to find out where NEST is installed, where the source code resides, and which compiler options were used for compiling NEST. If ``nest-config`` is not in your path, you need to provide it explicitly like this
+3. Configure. The configure process uses the script ``nest-config`` to find out where NEST is installed, where the source code resides, and which compiler options were used for compiling NEST. You should provide it explicitly as a CMake option to be sure for which NEST  you are building (and later installing) the module:
 
    .. code-block:: sh
 
-      cmake -Dwith-nest=${NEST_INSTALL_DIR}/bin/nest-config ..
+      cmake -Dwith-nest=${NEST_INSTALL_DIR}/bin/nest-config <path/to/module/source>
 
-   Please ensure that any other custom CMake flags (such as ``with-optimize``, ``with-mpi``, ``with-openmp`` and so on) are the same as were used for the NEST Simulator build.
-
-   It is not recommended to use ``-DCMAKE_INSTALL_PREFIX`` to select a different installation destination. If you do, you must make sure to use environment variables like ``LD_LIBRARY_PATH`` to ensure NEST can locate the module.
+   All necessary configuration and compiler flags will be set automatically based on information collected from ``nest-config``. You should not provide any other flags to CMake unless you are absolutely sure about what you are doing.
 
 4. Compile and install:
 
@@ -72,7 +70,7 @@ Building MyModule
 Using MyModule
 --------------
 
-To use the new module in NEST Simulator, ensure that the ``PYTHONPATH`` variable is set point to the NEST python libraries, and then use the ``nest.Install()`` API call to load the module:
+To use the new module in NEST Simulator, ensure that the ``PYTHONPATH`` environment variable is set point to the NEST python libraries, and then use the ``nest.Install()`` API call to load the module:
 
 .. code-block:: sh
 
