@@ -16,7 +16,7 @@ most important functions are:
   the simulation is performed. Here you can reset the size of ring
   buffers, and set variables that depend on the state of the
   scheduler.
-* ``void update(Time const & origin, const long_t from, const long_t
+* ``void update(Time const & origin, const long from, const long
   to)``: Update the dynamic state of the model. Here, the model
   propagates its internal state from one time step to the next. The
   parameter origin represents the beginning of the current network
@@ -24,12 +24,12 @@ most important functions are:
   in the network). to and from refer to the actual time steps that
   have to be considered inside of the slice. They are expressed in
   units of h, the simulation resolution.
-* ``void set_properties(const DictionaryDatum & d)``: Set user defined
-  parameters of the model. This function is called when SetStatus is
-  executed in SLI.
-* ``void get_properties(DictionaryDatum & d) const``: Retrieve a
+* ``void set_status(const Dictionary & d)``: Set user defined
+  parameters of the model. This function is called when ``nest.set()``
+  is called from PyNEST.
+* ``void get_status(Dictionary & d) const``: Retrieve a
   Dictionary with parameters from the model. This is the C++ end of
-  the SLI function GetStatus.
+  the ``nest.get()`` function.
 
 The following sections will explain each of these functions in detail
 with the help of an example model, called my_model.
@@ -63,11 +63,11 @@ A typical update method of a neuron model will look like this:
 
 .. code-block:: C++
 
-   void nest::iaf_neuron::update(Time const & origin, const long_t from, const long_t to)
+   void nest::iaf_neuron::update(Time const & origin, const long from, const long to)
    {
      assert(to >= 0 && from < Scheduler::get_min_delay());
      assert(from < to);
-     for ( long_t lag = from ; lag < to ; ++lag )
+     for ( long lag = from ; lag < to ; ++lag )
      {
        if ( r_ == 0 )
        {

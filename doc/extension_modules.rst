@@ -16,7 +16,7 @@ By writing a new module, you can add
 
 to NEST. For the benefit of the NEST Community at large, we would encourage you to share your modules with other NEST users. Please see the `contributing <https://nest-simulator.readthedocs.io/en/stable/developer_space/index.html>`_ page to find out how to initiate the inclusion by issuing a pull request.
 
-On this page, you will find an overview of how to create your own module, based on the example ``MyModule``, which you find at https://github.com/nest/nest-extension-module/.
+On this page, you will find an overview of how to create your own module, based on the example ``MyModule``, which you will find at https://github.com/nest/nest-extension-module/.
 
 If you have questions, problems, or feedback about your experience with external modules, please join the `mailing list <https://nest-simulator.readthedocs.io/en/stable/community.html>`_ to share it with us ·and other users.
 
@@ -28,13 +28,13 @@ If you have questions, problems, or feedback about your experience with external
 Prerequisites
 -------------
 
-1. Download, build, and install NEST. NEST should be built outside the source code directory.
+1. Download, build, and install NEST. NEST should be built outside the source code directory. The instructions for building NEST from source can be found `here <https://nest-simulator.readthedocs.io/en/stable/installation/developer.html#dev-install>`_.
 2. The NEST source code and installation directory must be accessible for building modules.
 3. Define the environment variable ``NEST_INSTALL_DIR`` to contain the path to which you have installed NEST, e.g., using bash,
 
    .. code-block:: sh
 
-      export NEST_INSTALL_DIR=/Users/plesser/NEST/install
+      export NEST_INSTALL_DIR=<path/to/NEST/install/dir>
 
    This environment variable is not strictly necessary, but saves you typing later.
 
@@ -42,41 +42,39 @@ Prerequisites
 Building MyModule
 -----------------
 
-1. Create a build directory:
+1. Create a build directory outside the source code directory for the extension module (and outside the build directory for NEST itself).
 
    .. code-block:: sh
 
-      mkdir build
-      cd build
+      mkdir build-ext
+      cd build-ext
 
-3. Configure. The configure process uses the script ``nest-config`` to find out where NEST is installed, where the source code resides, and which compiler options were used for compiling NEST. If ``nest-config`` is not in your path, you need to provide it explicitly like this
+2. Configure. The configure process uses the script ``nest-config`` to find out where NEST is installed, where the source code resides, and which compiler options were used for compiling NEST. You should provide it explicitly as a CMake option to be sure for which NEST you are building (and later installing) the module:
 
    .. code-block:: sh
 
-      cmake -Dwith-nest=${NEST_INSTALL_DIR}/bin/nest-config ..
+      cmake -Dwith-nest=${NEST_INSTALL_DIR}/bin/nest-config <path/to/module/source>
 
-   Please ensure that any other custom CMake flags (such as ``with-optimize``, ``with-mpi``, ``with-openmp`` and so on) are the same as were used for the NEST Simulator build.
+   All necessary configuration and compiler flags will be set automatically based on information collected from ``nest-config``. You should not provide any other flags to CMake unless you are absolutely sure about what you are doing.
 
-   It is not recommended to use ``-DCMAKE_INSTALL_PREFIX`` to select a different installation destination. If you do, you must make sure to use environment variables like ``LD_LIBRARY_PATH`` to ensure NEST can locate the module.
-
-4. Compile and install:
+3. Compile and install:
 
    .. code-block:: sh
 
       make
       make install
 
-   MyModule will then be installed to ``${NEST_INSTALL_DIR}``.
+   MyModule (``mymodule.so``) will then be installed to ``${NEST_INSTALL_DIR}``.
 
 
 Using MyModule
 --------------
 
-To use the new module in NEST Simulator, first source the ``nest_vars.sh`` script in the installation directory, and then use the ``nest.Install()`` API call to load the module:
+To use the new module in NEST Simulator, ensure that the ``PYTHONPATH`` environment variable is set point to the NEST python libraries, and then use the ``nest.Install()`` API call to load the module:
 
 .. code-block:: sh
 
-   source $NEST_INSTALL_DIR/bin/nest_vars.sh
+   export PYTHONPATH=${NEST_INSTALL_DIR}/lib/python..../site-packages
    python -c 'import nest; nest.Install("mymodule")'
 
 After loading the module, you should be able to see ``pif_psc_alpha`` in ``nest.node_models`` and ``drop_odd_spike`` in ``nest.synapse_models``.
