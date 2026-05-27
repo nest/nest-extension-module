@@ -49,7 +49,7 @@ Building MyModule
       mkdir build-ext
       cd build-ext
 
-3. Configure. The configure process uses the script ``nest-config`` to find out where NEST is installed, where the source code resides, and which compiler options were used for compiling NEST. You should provide it explicitly as a CMake option to be sure for which NEST  you are building (and later installing) the module:
+2. Configure. The configure process uses the script ``nest-config`` to find out where NEST is installed, where the source code resides, and which compiler options were used for compiling NEST. You should provide it explicitly as a CMake option to be sure for which NEST you are building (and later installing) the module:
 
    .. code-block:: sh
 
@@ -57,7 +57,7 @@ Building MyModule
 
    All necessary configuration and compiler flags will be set automatically based on information collected from ``nest-config``. You should not provide any other flags to CMake unless you are absolutely sure about what you are doing.
 
-4. Compile and install:
+3. Compile and install:
 
    .. code-block:: sh
 
