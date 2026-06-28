@@ -38,11 +38,10 @@ else ()
 endif ()
 
 add_library( ${MODULE_NAME}_module MODULE ${MODULE_SOURCES} )
-target_link_libraries(${MODULE_NAME}_module ${USER_LINK_LIBRARIES})
+target_link_libraries( ${MODULE_NAME}_module PRIVATE NEST::nest ${USER_LINK_LIBRARIES} )
+target_compile_definitions( ${MODULE_NAME}_module PRIVATE LTX_MODULE )
 set_target_properties( ${MODULE_NAME}_module
    PROPERTIES
-   COMPILE_FLAGS "${NEST_CXXFLAGS} -DLTX_MODULE"
-   LINK_FLAGS "${NEST_LIBS}"
    PREFIX ""
    OUTPUT_NAME ${MODULE_NAME} )
 install( TARGETS ${MODULE_NAME}_module

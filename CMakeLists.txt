@@ -31,28 +31,44 @@ set( MODULE_VERSION_MINOR 1 )
 set( MODULE_VERSION "${MODULE_VERSION_MAJOR}.${MODULE_VERSION_MINOR}" )
 
 if ( with-nest )
-   set( NEST_CONFIG ${with-nest} )
+   # NESTSimulator_ROOT is the variable CMake's find_package() itself looks
+   # for (CMP0074) to locate NESTSimulatorConfig.cmake -- no need to fold it
+   # into CMAKE_PREFIX_PATH by hand.
+   set( NESTSimulator_ROOT "${with-nest}" )
+   set( NEST_CONFIG "${NESTSimulator_ROOT}/bin/nest-config" )
 else ()
-   message( FATAL_ERROR "-Dwith-nest=<nest_config> is required" )
+   message( FATAL_ERROR "-Dwith-nest=<path_to_nest_installation> is required" )
 endif ()
 
-# Use `nest-config` to get the compiler that was used for NEST.
+# Use `nest-config` to get the compiler that was used for NEST. Needed before
+# project() can run, so this -- and the basic check that `nest-config` is
+# actually reachable under the given root -- cannot go through find_package().
 execute_process(
     COMMAND ${NEST_CONFIG} --compiler
     RESULT_VARIABLE RES_VAR
     OUTPUT_VARIABLE NEST_COMPILER
     OUTPUT_STRIP_TRAILING_WHITESPACE
 )
-
-# One check on first execution, if `nest-config` is working.
 if ( NOT RES_VAR EQUAL 0 )
-  message( FATAL_ERROR "Cannot run `${NEST_CONFIG}`. Please specify correct `nest-config` via -Dwith-nest=... " )
+  message( FATAL_ERROR "Cannot run `${NEST_CONFIG}`. Please specify a valid NEST install prefix via -Dwith-nest=... " )
 endif ()
 
 set( CMAKE_CXX_COMPILER "${NEST_COMPILER}" )
 project( ${MODULE_NAME} CXX )
 
-# Use `nest-config` to get the Python executable (for help generation).
+# Find NEST's CMake CONFIG-mode package (NESTSimulatorConfig.cmake), hinted
+# by NESTSimulator_ROOT above. Provides the NEST::nest target (compile
+# features, include dirs, link libraries -- the Darwin "dynamic_lookup" link
+# option is already part of the target, so no separate APPLE-specific
+# handling is needed here as it used to be with `nest-config --libs`).
+find_package( NESTSimulator REQUIRED )
+
+# Same install prefix find_package() just used -- no nest-config call needed.
+set( NEST_INSTALL_PREFIX "${NESTSimulator_ROOT}" )
+
+# Everything below is information `nest-config` provides that the CONFIG
+# package above does not (yet): the Python interpreter NEST was built
+# against, and its install layout for docs/data/libs.
 execute_process(
     COMMAND ${NEST_CONFIG} --python-executable
     RESULT_VARIABLE RES_VAR
@@ -60,7 +76,6 @@ execute_process(
     OUTPUT_STRIP_TRAILING_WHITESPACE
 )
 
-# Get the Python executable (for help generation).
 execute_process(
     COMMAND ${NEST_CONFIG} --python-version
     RESULT_VARIABLE RES_VAR
@@ -68,60 +83,6 @@ execute_process(
     OUTPUT_STRIP_TRAILING_WHITESPACE
 )
 
-# Get the install prefix.
-execute_process(
-    COMMAND ${NEST_CONFIG} --prefix
-    RESULT_VARIABLE RES_VAR
-    OUTPUT_VARIABLE NEST_INSTALL_PREFIX
-    OUTPUT_STRIP_TRAILING_WHITESPACE
-)
-
-# Get the CXXFLAGS.
-execute_process(
-    COMMAND ${NEST_CONFIG} --cflags
-    RESULT_VARIABLE RES_VAR
-    OUTPUT_VARIABLE NEST_CXXFLAGS
-    OUTPUT_STRIP_TRAILING_WHITESPACE
-)
-
-# Get the Includes.
-execute_process(
-    COMMAND ${NEST_CONFIG} --includes
-    RESULT_VARIABLE RES_VAR
-    OUTPUT_VARIABLE NEST_INCLUDES
-    OUTPUT_STRIP_TRAILING_WHITESPACE
-)
-if ( NEST_INCLUDES )
-  # make a cmake list
-  string( REPLACE " " ";" NEST_INCLUDES_LIST "${NEST_INCLUDES}" )
-  foreach ( inc_complete ${NEST_INCLUDES_LIST} )
-    # if it is actually a -Iincludedir
-    if ( "${inc_complete}" MATCHES "^-I.*" )
-      # get the directory
-      string( REGEX REPLACE "^-I(.*)" "\\1" inc "${inc_complete}" )
-      # and check whether it is a directory
-      if ( IS_DIRECTORY "${inc}" )
-        include_directories( "${inc}" )
-      endif ()
-    endif ()
-  endforeach ()
-endif ()
-
-# Get all linked libraries.
-execute_process(
-    COMMAND ${NEST_CONFIG} --libs
-    RESULT_VARIABLE RES_VAR
-    OUTPUT_VARIABLE NEST_LIBS
-    OUTPUT_STRIP_TRAILING_WHITESPACE
-)
-
-if ( APPLE )
-    # delay lookup of symbols; this is specific for Mac build environment
-    string(APPEND NEST_LIBS " -Wl,-undefined -Wl,dynamic_lookup")
-endif ()
-
-
-# Get the data install dir.
 execute_process(
     COMMAND ${NEST_CONFIG} --datadir
     RESULT_VARIABLE RES_VAR
@@ -129,7 +90,6 @@ execute_process(
     OUTPUT_STRIP_TRAILING_WHITESPACE
 )
 
-# Get the documentation install dir.
 execute_process(
     COMMAND ${NEST_CONFIG} --docdir
     RESULT_VARIABLE RES_VAR
@@ -137,7 +97,6 @@ execute_process(
     OUTPUT_STRIP_TRAILING_WHITESPACE
 )
 
-# Get the library install dir.
 execute_process(
     COMMAND ${NEST_CONFIG} --libdir
     RESULT_VARIABLE RES_VAR
@@ -247,12 +206,14 @@ message( "-------------------------------------------------------" )
 message( "${MODULE_NAME} Configuration Summary" )
 message( "-------------------------------------------------------" )
 message( "" )
+get_target_property( NEST_INCLUDES NEST::nest INTERFACE_INCLUDE_DIRECTORIES )
+get_target_property( NEST_LIBS NEST::nest INTERFACE_LINK_LIBRARIES )
+
 message( "C++ compiler         : ${CMAKE_CXX_COMPILER}" )
 message( "Build static libs    : ${NEST_STATIC_LIB}" )
 message( "C++ compiler flags   : ${CMAKE_CXX_FLAGS}" )
-message( "NEST compiler flags  : ${NEST_CXXFLAGS}" )
 message( "NEST include dirs    : ${NEST_INCLUDES}" )
-message( "NEST libraries flags : ${NEST_LIBS}" )
+message( "NEST libraries       : ${NEST_LIBS}" )
 message( "User link libraries  : ${USER_LINK_LIBRARIES}" )
 message( "" )
 message( "-------------------------------------------------------" )

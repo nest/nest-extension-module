@@ -24,6 +24,7 @@
 
 // C++ includes:
 #include <limits>
+#include <numbers>
 
 #include "dict_util.h"
 
@@ -203,7 +204,7 @@ mynest::pif_psc_alpha::pre_run_hook()
   // P33_ is 1
 
   // initial value ensure normalization to max amplitude 1.0
-  V_.pscInitialValue = 1.0 * numerics::e / P_.tau_syn;
+  V_.pscInitialValue = 1.0 * std::numbers::e / P_.tau_syn;
 
   // refractory time in steps
   V_.t_ref_steps = Time( Time::ms( P_.t_ref ) ).get_steps();

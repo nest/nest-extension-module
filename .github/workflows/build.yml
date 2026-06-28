@@ -97,7 +97,7 @@ jobs:
           mkdir build && cd build
           cmake \
               -Dwith-optimize=ON -Dwith-warning=ON \
-              -Dwith-nest=$NEST_RESULT/bin/nest-config \
+              -Dwith-nest=$NEST_RESULT \
               $CONFIGURE_MPI \
               $CONFIGURE_OPENMP \
               ..
