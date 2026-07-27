@@ -80,6 +80,12 @@ To use the new module in NEST Simulator, ensure that the ``PYTHONPATH`` environm
 After loading the module, you should be able to see ``pif_psc_alpha`` in ``nest.node_models`` and ``drop_odd_spike`` in ``nest.synapse_models``.
 
 
+Reloading the module
+^^^^^^^^^^^^^^^^^^^^
+
+Note that some systems do not unload dynamic library symbols (see https://github.com/nest/nest-simulator/issues/3802); as a result of this, it is recommended to always use unique names for models inside modules, or, alternatively, use the ``-fno-gnu-unique`` flag when building NEST extension modules.
+
+
 Creating your own module
 ------------------------
 
