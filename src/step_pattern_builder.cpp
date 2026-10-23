@@ -89,7 +89,7 @@ void
 mynest::StepPatternBuilder::connect_()
 {
 // This code is based on AllToAllBuilder, except that we step
-// by source_step_ and target_step_ except for stepping by 1.
+// by source_step_ and target_step_ instead of stepping by 1.
 
 #pragma omp parallel
   {

@@ -85,7 +85,7 @@ public:
    * return value will be ignored.
    *
    * Since this is a synapse model dropping spikes, it is only for spikes,
-   * therefore we only implement `handles_test_event()` only for spike
+   * therefore we implement `handles_test_event()` only for spike
    * events.
    *
    * See Kunkel et al (2014), Sec 3.3.1, for background information.
@@ -152,7 +152,7 @@ public:
    */
   void set_status( const Dictionary& d, nest::ConnectorModel& cm );
 
-  //! Allows efficient initialization on contstruction
+  //! Allows efficient initialization on construction
   void
   set_weight( double w )
   {
