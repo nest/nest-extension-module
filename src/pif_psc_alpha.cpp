@@ -27,7 +27,7 @@
 
 #include "dict_util.h"
 
-// Includes from nestkernel: impls here are requiered to ensure template instantiation
+// Includes from nestkernel: impls here are required to ensure template instantiation
 #include "nest_impl.h"
 #include "universal_data_logger_impl.h"
 
@@ -53,7 +53,7 @@ template <>
 void
 RecordablesMap< mynest::pif_psc_alpha >::create()
 {
-  // use standard names whereever you can for consistency!
+  // use standard names wherever you can for consistency!
   insert_( names::V_m, &mynest::pif_psc_alpha::get_V_m_ );
 }
 }
