@@ -83,7 +83,7 @@ After loading the module, you should be able to see ``pif_psc_alpha`` in ``nest.
 Reloading the module
 ^^^^^^^^^^^^^^^^^^^^
 
-After ``nest.ResetKernel()``, a rebuilt module can be loaded again with ``nest.Install()`` without restarting Python. However, GCC emits some symbols (for instance, static variables in inline functions and templates) with binding ``STB_GNU_UNIQUE``. The dynamic loader never unloads a library that contains such symbols, so installing a rebuilt library from the same path silently loads the old version again. To prevent this, ``CMakeLists.txt`` compiles the module with ``-fno-gnu-unique`` if the compiler supports it.
+After ``nest.ResetKernel()``, a rebuilt module can be loaded again with ``nest.Install()`` without restarting Python. However, when compiling with GCC, the compiler emits some symbols (for instance, static variables in inline functions and templates) with binding ``STB_GNU_UNIQUE``. The dynamic loader never unloads a library that contains such symbols, so installing a rebuilt library from the same path silently loads the old version again (or worse, can crash the process; see https://github.com/nest/nest-simulator/issues/3802 for further details). To prevent this, ``CMakeLists.txt`` compiles the module with ``-fno-gnu-unique`` if the compiler supports it.
 
 
 Creating your own module
