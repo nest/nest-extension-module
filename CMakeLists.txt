@@ -52,6 +52,14 @@ endif ()
 set( CMAKE_CXX_COMPILER "${NEST_COMPILER}" )
 project( ${MODULE_NAME} CXX )
 
+set( MODULE_EXTRA_COMPILE_FLAGS "" )
+include( CheckCXXCompilerFlag )
+check_cxx_compiler_flag( "-fno-gnu-unique" MODULE_HAS_NO_GNU_UNIQUE )
+if ( MODULE_HAS_NO_GNU_UNIQUE )
+    # Avoid STB_GNU_UNIQUE symbols, which prevent the module from being unloaded (GCC only; not supported by e.g. Clang).
+    set( MODULE_EXTRA_COMPILE_FLAGS "-fno-gnu-unique" )
+endif ()
+
 # Use `nest-config` to get the Python executable (for help generation).
 execute_process(
     COMMAND ${NEST_CONFIG} --python-executable
@@ -251,6 +259,7 @@ message( "C++ compiler         : ${CMAKE_CXX_COMPILER}" )
 message( "Build static libs    : ${NEST_STATIC_LIB}" )
 message( "C++ compiler flags   : ${CMAKE_CXX_FLAGS}" )
 message( "NEST compiler flags  : ${NEST_CXXFLAGS}" )
+message( "Extra compiler flags : ${MODULE_EXTRA_COMPILE_FLAGS}" )
 message( "NEST include dirs    : ${NEST_INCLUDES}" )
 message( "NEST libraries flags : ${NEST_LIBS}" )
 message( "User link libraries  : ${USER_LINK_LIBRARIES}" )
