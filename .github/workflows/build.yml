@@ -7,11 +7,11 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, macos-latest]
+        os: [ubuntu-22.04, macos-latest]
         cpp_compiler: ["gcc", "clang"]
         exclude:
           - cpp_compiler: "clang"
-            os: ubuntu-latest
+            os: ubuntu-22.04
           - cpp_compiler: "gcc"
             os: macos-latest
 
